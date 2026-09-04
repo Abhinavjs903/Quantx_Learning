@@ -529,7 +529,7 @@ Before contributing:
 5. Keep pull requests focused.
 6. Update documentation when necessary.
 
-For major changes, please open an issue first to discuss the proposed change.
+For major changes,please open an issue first to discuss the proposed change.
 
 ---
 
