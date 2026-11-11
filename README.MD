@@ -518,7 +518,7 @@ The following features are intentionally **not part of V1** and may be considere
 
 # 🤝 Contributing
 
-Contributions are welcome.
+Contributions are welcome. To set up the project locally (PostgreSQL, environment variables, Prisma migrations, and seeding), follow the **[Local Development Setup Guide](docs/SETUP.md)**.
 
 Before contributing:
 
