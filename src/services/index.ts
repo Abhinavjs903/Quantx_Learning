@@ -48,3 +48,5 @@ export async function fetchJson<T>(
     };
   }
 }
+
+export * from "./adminTopicService";

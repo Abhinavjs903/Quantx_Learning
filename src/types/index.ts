@@ -37,3 +37,55 @@ export interface ApiResponse<T = unknown> {
   error?: string;
   message?: string;
 }
+
+export interface Topic {
+  id: string;
+  name: string;
+  subjectId: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  _count?: {
+    questions: number;
+  };
+}
+
+export interface QuestionTopic {
+  id: string;
+  questionId: string;
+  topicId: string;
+  topic?: Topic;
+}
+
+export interface SubjectSummary {
+  id: string;
+  name: string;
+  code?: string | null;
+  semesterId: string;
+  semester?: {
+    id: string;
+    number: number;
+    course?: {
+      id: string;
+      name: string;
+      code?: string | null;
+    };
+  };
+  _count?: {
+    topics?: number;
+    pyqs?: number;
+  };
+}
+
+export type ExamType = "MID_SEM" | "END_SEM" | "PRACTICAL" | "OTHER";
+
+export interface PYQQuestion {
+  id: string;
+  subjectId: string;
+  subject?: SubjectSummary;
+  year: number;
+  examType: ExamType;
+  fileUrl: string;
+  topicTags?: string | null;
+  topics?: (QuestionTopic & { topic: Topic })[];
+  createdAt: Date | string;
+}

@@ -29,6 +29,12 @@ export default function Navbar() {
             >
               Notices
             </Link>
+            <Link
+              href="/admin"
+              className="transition-colors hover:text-black dark:hover:text-white"
+            >
+              Admin
+            </Link>
           </nav>
         </div>
 

@@ -7,7 +7,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -61,6 +60,7 @@ model Subject {
   resources  Resource[]
   pyqs       PYQ[]
   questions  Question[]
+  topics     Topic[]
 }
 
 model Unit {
@@ -108,13 +108,37 @@ enum ExamType {
 }
 
 model PYQ {
-  id        String   @id @default(cuid())
+  id        String          @id @default(cuid())
   subjectId String
-  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subject   Subject         @relation(fields: [subjectId], references: [id])
   year      Int
   examType  ExamType
   fileUrl   String
-  createdAt DateTime @default(now())
+  topicTags String?
+  topics    QuestionTopic[]
+  createdAt DateTime        @default(now())
+}
+
+model Topic {
+  id        String          @id @default(cuid())
+  name      String
+  subjectId String
+  subject   Subject         @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  questions QuestionTopic[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@unique([name, subjectId])
+}
+
+model QuestionTopic {
+  id         String   @id @default(cuid())
+  questionId String
+  topicId    String
+  question   PYQ      @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  topic      Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, topicId])
 }
 
 enum Difficulty {
