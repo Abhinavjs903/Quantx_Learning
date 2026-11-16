@@ -1,12 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { NextRequest } from "next/server";
+import { NextRequest } from "next/server.js";
 import { encode } from "next-auth/jwt";
+import type { Role } from "../src/lib/auth/rbac.ts";
 import { proxy } from "../src/proxy.ts";
 
 process.env.NEXTAUTH_SECRET = "test-secret-not-real";
 
-async function call(path: string, role?: string, cookie?: string) {
+async function call(path: string, role?: Role, cookie?: string) {
   const headers = new Headers();
   const value = cookie ?? (role ? await encode({ token: { role }, secret: process.env.NEXTAUTH_SECRET! }) : undefined);
   if (value) headers.set("cookie", `next-auth.session-token=${value}`);
@@ -31,7 +32,7 @@ test("STUDENT is blocked with 403", async () => {
 });
 
 test("MODERATOR and ADMIN pass through", async () => {
-  for (const role of ["MODERATOR", "ADMIN"]) {
+  for (const role of ["MODERATOR", "ADMIN"] as const) {
     const res = await call("/admin/resources", role);
     assert.equal(res.status, 200);
     assert.equal(res.headers.get("x-middleware-next"), "1");

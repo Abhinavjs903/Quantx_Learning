@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server.js";
 import { getToken } from "next-auth/jwt";
 import { authorize } from "./lib/auth/rbac.ts";
 
