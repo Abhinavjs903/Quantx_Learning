@@ -413,6 +413,48 @@ The project should follow standard production security practices.
 
 ---
 
+# 🐘 Local Database Setup (Prisma + PostgreSQL)
+
+Prerequisites: Node.js 20+ and a running PostgreSQL instance (local install or Docker).
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Create an empty database (the name is up to you):
+
+   ```bash
+   createdb quantx_learning
+   ```
+
+3. Copy the env template and put your own connection string in `.env`:
+
+   ```bash
+   cp .env.example .env
+   # DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/quantx_learning?schema=public"
+   ```
+
+   `.env` is git-ignored; never commit real credentials.
+
+4. Generate the Prisma client and apply the migrations:
+
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev
+   ```
+
+5. Verify the connection:
+
+   ```bash
+   npm run db:check
+   ```
+
+Use the shared client from `src/lib/prisma.ts` (`import { prisma } from "@/lib/prisma"`) so only one `PrismaClient` exists per process, including during hot reload. The schema lives in `prisma/schema.prisma`; the connection URL is read from `DATABASE_URL` in `prisma.config.ts`.
+
+---
+
 # 🗂️ Suggested Project Structure
 
 ```text
